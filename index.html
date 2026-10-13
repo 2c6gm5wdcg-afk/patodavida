@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff0f5">
+  <title>Uma pergunta para você ❤️</title>
+  <style>
+    :root { --pink:#be185d; --deep:#831843; --soft:#fff0f5; --rose:#fbcfe8; }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
+      font-family: Georgia, "Times New Roman", serif; color:var(--deep);
+      background: radial-gradient(circle at top, #fff 0%, #fff0f5 48%, #fce7f3 100%);
+      overflow-x:hidden;
+    }
+    .card {
+      width:min(100%, 680px); background:rgba(255,255,255,.88); border:1px solid #f9a8d4;
+      border-radius:28px; padding:clamp(24px,5vw,48px); text-align:center;
+      box-shadow:0 18px 60px rgba(157,23,77,.12); position:relative; z-index:2;
+    }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font:12px Arial,sans-serif; color:#be185d; }
+    h1 { font-size:clamp(30px,6vw,48px); line-height:1.12; margin:14px 0 18px; }
+    p { font-size:18px; line-height:1.65; }
+    .question { font-size:clamp(20px,4vw,26px); font-weight:bold; margin:26px 0; }
+    .buttons { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:24px; }
+    button {
+      font:600 16px Arial,sans-serif; border:0; border-radius:999px; padding:15px 22px;
+      cursor:pointer; transition:transform .18s ease, box-shadow .18s ease;
+    }
+    button:hover { transform:translateY(-2px); box-shadow:0 8px 20px #be185d22; }
+    .yes { background:var(--pink); color:white; }
+    .talk { background:white; color:var(--deep); border:1px solid #f9a8d4; }
+    .small { font:13px Arial,sans-serif; color:#9d174d; margin-top:22px; }
+    #reveal { display:none; animation:appear .7s ease both; }
+    #ourPhoto {
+      display:none; width:100%; max-height:440px; object-fit:cover; border-radius:20px;
+      margin:22px auto 8px; border:3px solid #fbcfe8;
+    }
+    .photo-note { font:13px Arial,sans-serif; color:#9d174d; }
+    .heart { position:fixed; top:-40px; z-index:5; pointer-events:none; animation:fall linear forwards; }
+    @keyframes fall { to { transform:translateY(115vh) rotate(360deg); opacity:0; } }
+    @keyframes appear { from {opacity:0; transform:translateY(12px)} to {opacity:1; transform:translateY(0)} }
+    .hidden { display:none !important; }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after {animation-duration:.01ms !important; transition-duration:.01ms !important;} }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section id="intro">
+      <div class="eyebrow">De mim para você, com amor</div>
+      <h1>Uma pergunta para o amor da minha vida… ❤️</h1>
+      <p>Eu sei que nem tudo foi perfeito. Talvez a gente tenha se machucado, se perdido um pouquinho ou não tenha sabido lidar com tudo da melhor forma.</p>
+      <p>Sei que a gente nem sempre é perfeito, mas meu coração sempre vai escolher você. ❤️</p>
+      <div class="question">Você ainda me ama e quer namorar comigo, reconstruindo nossa história juntos, quantas vezes forem necessárias?</div>
+      <div class="buttons">
+        <button class="yes" onclick="responderSim()">❤️ Sim, eu quero!</button>
+        <button class="talk" onclick="queroConversar()">💌 Quero conversar</button>
+      </div>
+      <div class="small">Leia com carinho. Responda com o coração. Não existe resposta errada.</div>
+    </section>
+
+    <section id="reveal">
+      <div class="eyebrow">Então vamos escolher nós dois</div>
+      <h1>Meu coração ainda escolhe você. 💗</h1>
+      <p>Obrigado por querer tentar comigo. Eu quero que a gente reconstrua nossa história com carinho, respeito, paciência e atitudes — não só palavras.</p>
+      <p>Que a gente se lembre de que estamos do mesmo lado, e que o nosso amor merece cuidado todos os dias.</p>
+      <img id="ourPhoto" alt="Uma foto especial de nós dois">
+      <p class="photo-note" id="photoNote">Coloque uma foto de vocês em <b>static/nossa-foto.jpg</b> para ela aparecer aqui.</p>
+      <p style="font-size:28px">Eu te amo. ❤️</p>
+      <p>Que esse seja um novo começo para nós.</p>
+    </section>
+
+    <section id="talkSection" class="hidden">
+      <div class="eyebrow">Com carinho e sem pressão</div>
+      <h1>Vamos conversar? 💌</h1>
+      <p>Eu quero ouvir o que você sente de verdade. Não quero te pressionar nem decidir por nós dois. Quando você estiver pronto, podemos conversar com calma e sinceridade.</p>
+      <p>Você é importante para mim, qualquer que seja a conversa que precisamos ter.</p>
+      <div class="buttons"><button class="talk" onclick="voltar()">Voltar à pergunta</button></div>
+    </section>
+  </main>
+
+  <script>
+    function coracoes() {
+      const symbols = ["❤️","💗","💕","💖","💘","💞"];
+      for (let i = 0; i < 55; i++) {
+        setTimeout(() => {
+          const el = document.createElement("span");
+          el.className = "heart";
+          el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          el.style.left = Math.random() * 100 + "vw";
+          el.style.fontSize = (18 + Math.random() * 24) + "px";
+          el.style.animationDuration = (3 + Math.random() * 4) + "s";
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 7500);
+        }, i * 45);
+      }
+    }
+    function responderSim() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("talkSection").classList.add("hidden");
+      document.getElementById("reveal").style.display = "block";
+      const photo = document.getElementById("ourPhoto");
+      photo.onerror = () => { photo.style.display = "none"; };
+      photo.onload = () => {
+        photo.style.display = "block";
+        document.getElementById("photoNote").style.display = "none";
+      };
+      photo.src = "/static/nossa-foto.jpg";
+      coracoes();
+    }
+    function queroConversar() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("reveal").style.display = "none";
+      document.getElementById("talkSection").classList.remove("hidden");
+    }
+    function voltar() {
+      document.getElementById("talkSection").classList.add("hidden");
+      document.getElementById("intro").classList.remove("hidden");
+    }
+  </script>
+</body>
+</html>
